@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>🎓 ИИ-школа — рабочее пространство</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Fira+Sans:wght@400;500;600;700&display=swap');
+  :root{--bg:#0B1220;--surface:#111A2C;--surface2:#16233B;--border:#233350;--text:#E6EDF7;--muted:#8FA3C0;
+        --blue:#3B82F6;--amber:#F5A623;--green:#34D399;--red:#F87171;--violet:#A78BFA;--pink:#F472B6;--teal:#5EEAD4}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Fira Sans',sans-serif;font-size:15px;line-height:1.55}
+  a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
+  .num{font-family:'Fira Code',monospace;font-variant-numeric:tabular-nums}
+  header{padding:24px 24px 10px;max-width:1320px;margin:0 auto}
+  header h1{font-size:25px} header .sub{color:var(--muted);margin-top:5px;font-size:14px}
+  nav{position:sticky;top:0;z-index:100;background:rgba(11,18,32,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:0 24px}
+  .tabs{max-width:1320px;margin:0 auto;display:flex;gap:3px;overflow-x:auto}
+  .tab{padding:12px 13px;cursor:pointer;color:var(--muted);font-weight:600;font-size:13px;border-bottom:2px solid transparent;white-space:nowrap}
+  .tab:hover{color:var(--text)} .tab.active{color:var(--amber);border-bottom-color:var(--amber)}
+  main{max-width:1320px;margin:0 auto;padding:20px 24px 60px}
+  .view{display:none}.view.active{display:block}
+  .grid{display:grid;gap:12px}
+  .g4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(370px,1fr))}
+  .kpi{background:linear-gradient(160deg,var(--surface),var(--surface2));border:1px solid var(--border);border-radius:12px;padding:15px}
+  .kpi .v{font-size:26px;font-weight:700;color:var(--amber)} .kpi .l{color:var(--muted);font-size:12.5px;margin-top:3px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:15px;margin-bottom:11px}
+  .card h3{font-size:16px;margin-bottom:6px}
+  .badge{display:inline-block;padding:2px 9px;border-radius:99px;font-size:11.5px;font-weight:600;border:1px solid var(--border);white-space:nowrap;margin-right:5px}
+  .b-todo{color:var(--muted)} .b-doing{color:var(--amber);border-color:rgba(245,166,35,.45)}
+  .b-done{color:var(--green);border-color:rgba(52,211,153,.4)} .b-frozen{color:var(--blue);border-color:rgba(59,130,246,.35)}
+  .b-leo{color:var(--pink);border-color:rgba(244,114,182,.4)} .b-timur{color:var(--teal);border-color:rgba(94,234,212,.4)}
+  .b-klod{color:var(--violet);border-color:rgba(167,139,250,.4)} .b-nikita{color:#FCD34D;border-color:rgba(252,211,77,.35)}
+  .filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+  .fbtn{padding:6px 11px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;font-size:12.5px;font-weight:600;font-family:inherit}
+  .fbtn.on{color:var(--amber);border-color:rgba(245,166,35,.5);background:rgba(245,166,35,.08)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th{text-align:left;color:var(--muted);font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;padding:8px 9px;border-bottom:1px solid var(--border)}
+  td{padding:8px 9px;border-bottom:1px solid rgba(35,51,80,.5);vertical-align:top}
+  tr:hover td{background:rgba(59,130,246,.05)}
+  .tbl{overflow-x:auto;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:4px 8px}
+  .md{font-size:15px;line-height:1.65}
+  .md h1{font-size:23px;margin:8px 0 14px}
+  .md h2{font-size:19px;margin:24px 0 10px;color:var(--amber);border-bottom:1px solid var(--border);padding-bottom:6px}
+  .md h3{font-size:16px;margin:16px 0 6px;color:#D5DEEC}
+  .md p{margin:9px 0} .md ul,.md ol{margin:9px 0 9px 20px} .md li{margin:4px 0}
+  .md strong{color:#FFF} .md code{font-family:'Fira Code',monospace;background:var(--surface2);padding:1px 6px;border-radius:5px;font-size:13px}
+  .md table{margin:12px 0} .md hr{border:0;border-top:1px solid var(--border);margin:20px 0}
+  .md blockquote{border-left:3px solid var(--amber);padding-left:12px;color:var(--muted);margin:10px 0}
+  .step{background:linear-gradient(160deg,rgba(245,166,35,.1),rgba(59,130,246,.05));border:1px solid rgba(245,166,35,.35);border-radius:14px;padding:18px 20px;margin-bottom:16px}
+  .step .lbl{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--amber);font-weight:700;margin-bottom:6px}
+  .step h2{font-size:19px;margin-bottom:8px}
+  .chip{display:inline-block;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:1px 7px;font-size:11.5px;margin:2px 3px 2px 0;font-family:'Fira Code',monospace}
+  .muted{color:var(--muted)} .small{font-size:13px}
+  .meta{font-size:12.5px;color:var(--muted);margin-top:8px;padding-top:8px;border-top:1px dashed var(--border)}
+  .meta b{color:#D5DEEC}
+  .imp{float:right;font-family:'Fira Code',monospace;font-size:12px;color:var(--amber)}
+  footer{max-width:1320px;margin:0 auto;padding:18px 24px 40px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--border)}
+  .empty{color:var(--muted);padding:30px;text-align:center;border:1px dashed var(--border);border-radius:12px}
+</style>
+</head>
+<body>
+<header>
+  <h1>🎓 ИИ-школа — рабочее пространство</h1>
+  <div class="sub">Лео (контент и трафик) · Тимур (продукт) · Никита (аналитика, позже) · агенты. Стратегия: контент-машина на ИИ без личного бренда.</div>
+</header>
+<nav><div class="tabs" id="tabs"></div></nav>
+<main id="main"></main>
+<footer id="foot"></footer>
+<script src="data.js"></script>
+<script>
+const P = window.P || {};
+const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+const TASKS = P.tasks || [], HYP = P.hypotheses || [], RES = P.research || {items:[],summaries:[]};
+const FORMATS = (P.formats || []).filter(f => f.type !== 'reference');
+const REFS = (P.formats || []).filter(f => f.type === 'reference');
+
+function md(t){
+  if (!t) return '';
+  let h = esc(t)
+    .replace(/^# (.+)$/gm,'<h1>$1</h1>').replace(/^## (.+)$/gm,'<h2>$1</h2>').replace(/^### (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^&gt; (.+)$/gm,'<blockquote>$1</blockquote>')
+    .replace(/^---$/gm,'<hr>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/`(.+?)`/g,'<code>$1</code>');
+  h = h.replace(/((?:^\|.*\|$\n?)+)/gm, block => {
+    const lines = block.trim().split('\n').filter(l => !/^\|[\s\-:|]+\|$/.test(l));
+    const cells = lines.map(l => l.replace(/^\||\|$/g,'').split('|').map(c => c.trim()));
+    if (cells.length < 2) return block;
+    return `<div class="tbl"><table><tr>${cells[0].map(c=>`<th>${c}</th>`).join('')}</tr>` +
+      cells.slice(1).map(r=>'<tr>'+r.map(c=>`<td>${c}</td>`).join('')+'</tr>').join('') + '</table></div>';
+  });
+  h = h.replace(/^[-*] (.+)$/gm,'<li>$1</li>').replace(/^(\d+)\. (.+)$/gm,'<li>$2</li>')
+       .replace(/(<li>[\s\S]*?<\/li>)(?!\s*<li>)/g,'<ul>$1</ul>');
+  return h.split(/\n{2,}/).map(p => /^<(h1|h2|h3|ul|div|hr|blockquote)/.test(p.trim()) ? p : (p.trim()?`<p>${p.replace(/\n/g,' ')}</p>`:'')).join('');
+}
+
+const OWN = {'Лео':'b-leo','Тимур':'b-timur','Никита':'b-nikita','Клод (агент)':'b-klod','Клод':'b-klod'};
+function taskRow(t,i){
+  return `<tr>
+    <td class="num muted">${t.id || i+1}</td>
+    <td><b>${esc(t.task)}</b>${t.next_action?`<div class="small muted" style="margin-top:3px">▸ ${esc(t.next_action)}</div>`:''}</td>
+    <td><span class="badge ${OWN[t.owner]||''}">${esc(t.owner||'—')}</span></td>
+    <td class="num">${t.phase ?? '—'}</td>
+    <td class="small">${esc(t.done_when||'')}</td>
+    <td class="small muted">${esc(t.est||'')}</td>
+  </tr>`;
+}
+
+let fPhase = 'все', fOwner = 'все';
+function renderTasks(){
+  const phases = ['все', ...new Set(TASKS.map(t=>String(t.phase ?? '—')))].filter((v,i,a)=>a.indexOf(v)===i);
+  const owners = ['все', ...new Set(TASKS.map(t=>t.owner).filter(Boolean))];
+  const list = TASKS.filter(t => (fPhase==='все'||String(t.phase??'—')===fPhase) && (fOwner==='все'||t.owner===fOwner));
+  if (!TASKS.length) return '<div class="empty">Задачи появятся после сборки роадмапа.</div>';
+  return `<div class="filters">
+      ${phases.map(p=>`<button class="fbtn ${fPhase===p?'on':''}" onclick="fPhase='${p}';refresh('tasks')">${p==='все'?'все фазы':'Ф'+p}</button>`).join('')}
+      <span style="width:12px"></span>
+      ${owners.map(o=>`<button class="fbtn ${fOwner===o?'on':''}" onclick="fOwner='${o}';refresh('tasks')">${o}</button>`).join('')}
+    </div>
+    <div class="tbl"><table><tr><th>№</th><th>Задача · первый шаг</th><th>Кто</th><th>Фаза</th><th>Готово когда</th><th>Оценка</th></tr>
+    ${list.map(taskRow).join('')}</table></div>`;
+}
+
+function renderHyp(){
+  if (!HYP.length) return '<div class="empty">Гипотезы появятся после сборки.</div>';
+  return `<div class="grid g2">${HYP.map(h=>`<div class="card">
+    <span class="imp">${h.impact?'★ '+h.impact:''}</span>
+    <h3>${esc(h.title || h.hypothesis || h.task || '')}</h3>
+    <div class="small">${esc(h.detail || h.how || '')}</div>
+    <div class="meta">
+      ${h.metric?`<div><b>Порог успеха:</b> ${esc(h.metric)}</div>`:''}
+      ${h.effort?`<div><b>Стоимость теста:</b> ${esc(h.effort)}</div>`:''}
+      ${h.risk?`<div><b>Риск:</b> ${esc(h.risk)}</div>`:''}
+    </div></div>`).join('')}</div>`;
+}
+
+function fmtCard(f){
+  return `<div class="card">
+    <span class="imp">${f.virality?'★ '+f.virality:''}</span>
+    <h3>${esc(f.name)}</h3>
+    <div class="small">${esc(f.what||'')}</div>
+    ${f.why_works?`<div class="small" style="margin-top:6px"><b class="muted">Почему заходит:</b> ${esc(f.why_works)}</div>`:''}
+    ${f.hook_formula?`<div class="small" style="margin-top:4px"><b class="muted">Хук:</b> ${esc(f.hook_formula)}</div>`:''}
+    <div class="meta">
+      ${f.production?`<div><b>Чем делаем:</b> ${esc(f.production)}</div>`:''}
+      ${f.time_per_unit?`<div><b>Время на единицу:</b> ${esc(f.time_per_unit)} · <b>за прогон:</b> ${esc(f.batch_capacity||'—')}</div>`:''}
+      ${f.audience?`<div><b>ЦА:</b> ${esc(f.audience)}</div>`:''}
+      ${f.funnel_fit?`<div><b>Воронка:</b> ${esc(f.funnel_fit)}</div>`:''}
+      ${(f.examples||[]).length?`<div style="margin-top:5px">${f.examples.map(e=>`<span class="chip">${esc(e)}</span>`).join('')}</div>`:''}
+    </div></div>`;
+}
+function renderFormats(){
+  if (!FORMATS.length) return '<div class="empty">Форматы собираются агентом — обнови страницу через несколько минут.</div>';
+  return `<div class="grid g3">${FORMATS.sort((a,b)=>(b.virality||0)-(a.virality||0)).map(fmtCard).join('')}</div>
+    ${REFS.length?`<h2 style="margin:26px 0 12px;font-size:19px">📌 Аккаунты-референсы</h2>
+    <div class="grid g3">${REFS.map(r=>`<div class="card"><h3>${esc(r.name||r.handle||'')}</h3>
+      <div class="small">${esc(r.what||r.why_works||'')}</div>
+      <div class="meta">${r.audience?`<div><b>Аудитория:</b> ${esc(r.audience)}</div>`:''}
+      ${(r.examples||[]).length?`<div style="margin-top:4px">${r.examples.map(e=>`<span class="chip">${esc(e)}</span>`).join('')}</div>`:''}</div></div>`).join('')}</div>`:''}`;
+}
+
+function resCard(i){
+  return `<div class="card">
+    <span class="imp">${i.impact?'★ '+i.impact:''}</span>
+    <span class="badge">${esc(i.area)}</span>
+    <h3 style="display:inline">${esc(i.title)}</h3>
+    <div class="small" style="margin-top:6px">${esc(i.detail)}</div>
+    ${(i.steps||[]).length?`<ol style="margin:8px 0 0 20px" class="small">${i.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>`:''}
+    <div class="meta">
+      ${i.metric?`<div><b>Метрика:</b> ${esc(i.metric)}</div>`:''}
+      ${i.effort?`<div><b>Усилие:</b> ${esc(i.effort)}</div>`:''}
+      ${i.risk?`<div><b>Риск:</b> ${esc(i.risk)}</div>`:''}
+      ${(i.tools||[]).length?`<div style="margin-top:5px">${i.tools.map(t=>`<span class="chip">${esc(t)}</span>`).join('')}</div>`:''}
+      ${(i.links||[]).length?`<div style="margin-top:4px">${i.links.map(l=>`<a href="${esc(l)}" target="_blank" rel="noopener" class="small">${esc(l.slice(0,60))}</a>`).join(' · ')}</div>`:''}
+    </div></div>`;
+}
+let fArea = 'все';
+function renderResearch(){
+  const items = RES.items || [];
+  if (!items.length) return '<div class="empty">Нет данных ресёрча.</div>';
+  const areas = ['все', ...new Set(items.map(i=>i.area))];
+  const AN = {funnel:'💰 воронка',product:'📦 продукт',stack:'🛠 стек',distribution:'📡 дистрибуция',
+              donors:'🎯 доноры',roles:'👥 роли',trends:'🔍 тренды',hypotheses:'🧪 гипотезы',dna:'🧬 ДНК',formats:'🎬 форматы'};
+  const list = items.filter(i => fArea==='все'||i.area===fArea).sort((a,b)=>(b.impact||0)-(a.impact||0));
+  return `<div class="filters">${areas.map(a=>`<button class="fbtn ${fArea===a?'on':''}" onclick="fArea='${a}';refresh('research')">${AN[a]||a} ${a==='все'?`(${items.length})`:`(${items.filter(i=>i.area===a).length})`}</button>`).join('')}</div>
+    <div class="grid g2">${list.map(resCard).join('')}</div>`;
+}
+
+function renderBridge(){
+  const done = TASKS.filter(t=>t.status==='done').length;
+  const doing = TASKS.filter(t=>t.status==='doing');
+  const next = doing[0] || TASKS.find(t=>t.status!=='done'&&t.status!=='frozen');
+  return `<div class="grid g4">
+      <div class="kpi"><div class="v num">${TASKS.length}</div><div class="l">задач в роадмапе</div></div>
+      <div class="kpi"><div class="v num">${done}</div><div class="l">закрыто</div></div>
+      <div class="kpi"><div class="v num">${HYP.length}</div><div class="l">гипотез на проверку</div></div>
+      <div class="kpi"><div class="v num">${(RES.items||[]).length}</div><div class="l">находок ресёрча</div></div>
+    </div>
+    ${next?`<div class="step" style="margin-top:16px">
+      <div class="lbl">➡️ следующий шаг</div>
+      <h2>${esc(next.task)}</h2>
+      ${next.next_action?`<div>Первое действие: ${esc(next.next_action)}</div>`:''}
+      <div class="meta"><b>Кто:</b> ${esc(next.owner||'—')} · <b>Готово когда:</b> ${esc(next.done_when||'—')} ${next.est?`· <b>Оценка:</b> ${esc(next.est)}`:''}</div>
+    </div>`:''}
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card"><h3>🎯 Стратегия</h3><p class="small">Контент-машина на ИИ <b>без личного бренда</b>: карточки, Reels, TikTok, закадровый голос, стилистики и «миры» под разные ЦА. Много безликих аккаунтов вместо одного личного. Принцип: <b>сначала ширина — потом упор в то, что зацепило</b>.</p></div>
+      <div class="card"><h3>👥 Роли</h3><p class="small"><b>Лео</b> — контент и трафик · <b>Тимур</b> — продукт: приложение, цифры, механика (плюс его анализаторы трендов) · <b>Никита</b> — «палантир для контента», подключится после первого трафика · <b>Агенты</b> — рутина, отбор тем, производство, PM.</p></div>
+      <div class="card"><h3>✅ Что уже есть</h3><p class="small">Claude Code + 104 агента · видео-пайплайн кодом · бесплатная генерация картинок и видео · контент-завод CRYPTUS · тренд-радар по Telegram (утренний дайджест с коэффициентом виральности) · транскрибация · парсер каналов · бизнес-план школы.</p></div>
+      <div class="card"><h3>🕳 Главная дыра</h3><p class="small">Дистрибуция и трафик. Производить умеем — раскатывать системно нет. Это и есть фокус первых фаз.</p></div>
+    </div>`;
+}
+
+function renderMaterials(){
+  const m = P.materials || [];
+  return `<div class="card"><h3>📁 Рабочая папка</h3><p class="small"><code>~/brain/ai-school/</code> — docs (роадмап, ДНК, критика, журнал) · data (задачи, гипотезы, ресёрч) · materials (накопленное) · agents (PM) · web (этот дашборд)</p></div>
+    <div class="tbl"><table><tr><th>Файл</th><th>Размер</th></tr>
+    ${m.map(x=>`<tr><td class="num small">${esc(x.file)}</td><td class="num muted">${x.kb} КБ</td></tr>`).join('')}</table></div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card"><h3>🏭 Разбор контент-завода</h3><p class="small">Стрим практика, который заменил команду 6 человек нейросетями. Схема машины, 152 находки, грабли.</p><a href="https://stream-content-factory.netlify.app" target="_blank" rel="noopener">открыть разбор →</a></div>
+      <div class="card"><h3>💱 Контент-разведка обменников</h3><p class="small">Как конкуренты в финтехе растят продукт через контент: форматы, бюджеты, что залетает.</p><a href="https://ai-vypusk-inserts.netlify.app" target="_blank" rel="noopener">монтажный пакет →</a></div>
+    </div>`;
+}
+
+// ЭТАЛОН — разбор контент-завода, с которого списана механика
+const E = P.etalon || {};
+function renderEtalon(){
+  if (!E.суть) return '<div class="empty">Разбор не подключён.</div>';
+  const box = (t, body, color) => `<div class="card" style="border-left:3px solid ${color}"><h3>${t}</h3><div class="md small">${md(body)}</div></div>`;
+  return `<div class="step">
+      <div class="lbl">откуда взята вся механика</div>
+      <h2>🏭 Контент-завод: разбор стрима</h2>
+      <div>Практик, который заменил команду из 6 человек нейросетями и держит систему за $200–300/мес. Отсюда взяты: 4 документа-фундамента, схема «один донор → все форматы», правило качества на входе и список граблей.</div>
+      <div class="meta"><a href="https://stream-content-factory.netlify.app" target="_blank" rel="noopener">полный разбор: 152 находки →</a> · <a href="https://www.youtube.com/live/uAArwih9AA0" target="_blank" rel="noopener">исходный стрим</a></div>
+    </div>
+    <div class="grid g2">
+      ${box('💡 Суть', E.суть, 'var(--amber)')}
+      ${box('💰 Цифры', E.цифры, 'var(--green)')}
+    </div>
+    <h2 style="font-size:19px;margin:22px 0 12px">🗺 Как устроена их машина</h2>
+    <div class="card"><div class="md small">${md(E.схема || '')}</div></div>
+    <h2 style="font-size:19px;margin:22px 0 12px">⚡ Фишки, которые забираем</h2>
+    <div class="card"><div class="md small">${md(E.фишки || '')}</div></div>
+    <div class="grid g2" style="margin-top:14px">
+      ${box('🛠 Их стек', E.стек, 'var(--blue)')}
+      ${box('💵 Как зарабатывают', E.модель, 'var(--teal)')}
+    </div>
+    <h2 style="font-size:19px;margin:22px 0 12px">🔧 Процессы по шагам</h2>
+    <div class="card"><div class="md small">${md(E.процессы || '')}</div></div>
+    <h2 style="font-size:19px;margin:22px 0 12px">⛔ Грабли — что НЕ работает</h2>
+    <div class="card warn"><div class="md small">${md(E.грабли || '')}</div></div>
+    <h2 style="font-size:19px;margin:22px 0 12px">🎯 Что из этого берём мы</h2>
+    <div class="card" style="border-left:3px solid var(--pink)"><div class="md small">${md(E.нам || '')}</div></div>`;
+}
+
+// ПЛАН — роадмап и задачи в одном месте
+function renderPlan(){
+  return `${P.roadmap?`<div class="md">${md(P.roadmap)}</div>`:'<div class="empty">Роадмап собирается.</div>'}
+    <h2 style="font-size:20px;margin:28px 0 12px;color:var(--amber);border-bottom:1px solid var(--border);padding-bottom:6px">✅ Задачи с фильтрами</h2>
+    <div id="tasksbox">${renderTasks()}</div>`;
+}
+
+// ГЛУБИНА — всё, что «на почитать»: ДНК, ресёрч, критика, файлы
+function renderDeep(){
+  return `<div class="grid g2" style="margin-bottom:18px">
+      <div class="card"><h3>🧬 ДНК бренда</h3><p class="small muted">Четыре документа-фундамента: клиент, продукт, лестница Ханта, tone of voice. Без них агенты выдают AI slop.</p><button class="fbtn on" onclick="openDeep('dna')">открыть ДНК</button></div>
+      <div class="card"><h3>⚠️ Где план порвётся</h3><p class="small muted">Жёсткая критика роадмапа: что пропущено, где нереалистичные цифры, главный риск провала.</p><button class="fbtn on" onclick="openDeep('critique')">открыть критику</button></div>
+      <div class="card"><h3>🔬 Ресёрч</h3><p class="small muted">110 находок по 9 направлениям: воронка, продукт, стек, дистрибуция, доноры, роли, тренды.</p><button class="fbtn on" onclick="openDeep('research')">открыть ресёрч</button></div>
+      <div class="card"><h3>📁 Файлы проекта</h3><p class="small muted">Что накоплено на диске в рабочей папке.</p><button class="fbtn on" onclick="openDeep('files')">открыть список</button></div>
+    </div>
+    <div id="deepbox"></div>`;
+}
+function openDeep(what){
+  const box = document.getElementById('deepbox');
+  if (what === 'dna') box.innerHTML = P.dna ? `<div class="md">${md(P.dna)}</div>` : '<div class="empty">ДНК не подключена.</div>';
+  if (what === 'critique') box.innerHTML = P.critique ? `<div class="md">${md(P.critique)}</div>` : '<div class="empty">Критика собирается — вернись позже.</div>';
+  if (what === 'research') box.innerHTML = renderResearch();
+  if (what === 'files') box.innerHTML = renderMaterials();
+  box.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+const VIEWS = [
+  {id:'bridge', label:'🎯 Мостик', render:renderBridge},
+  {id:'plan', label:'🗺 План и задачи', render:renderPlan},
+  {id:'formats', label:'🎬 Контент', render:renderFormats},
+  {id:'etalon', label:'🏭 Эталон', render:renderEtalon},
+  {id:'hyp', label:'🧪 Гипотезы', render:renderHyp},
+  {id:'deep', label:'📚 Глубина', render:renderDeep},
+];
+function refresh(id){
+  if (id === 'tasks') { const b = document.getElementById('tasksbox'); if (b) { b.innerHTML = renderTasks(); return; } id = 'plan'; }
+  const el = document.getElementById('v-'+id);
+  if (el) el.innerHTML = VIEWS.find(v=>v.id===id).render();
+}
+function show(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.id===id));
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active', v.id==='v-'+id));
+  location.hash = id; window.scrollTo(0,0);
+}
+(function(){
+  const tabs=document.getElementById('tabs'), main=document.getElementById('main');
+  VIEWS.forEach(v=>{
+    const t=document.createElement('div'); t.className='tab'; t.dataset.id=v.id; t.textContent=v.label; t.onclick=()=>show(v.id); tabs.appendChild(t);
+    const s=document.createElement('section'); s.className='view'; s.id='v-'+v.id; s.innerHTML=v.render(); main.appendChild(s);
+  });
+  document.getElementById('foot').innerHTML = `Рабочее пространство проекта · PM-агент: скажи «подними школу» → статус, висяки и один следующий шаг · пересборка: <code>python3 tools/build.py</code>`;
+  const h=location.hash.replace('#','');
+  show(VIEWS.some(v=>v.id===h)?h:'bridge');
+})();
+</script>
+</body>
+</html>
